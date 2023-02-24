@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% block content %}
+    <div class="home-course-page">
+        <h1 class="course-title">{{course.course_name}}</h1>
+        <div class="video-section">     
+            <div class="course-video">
+                <iframe src="{{video.video_link}}" allowfullscreen></iframe>
+            </div>
+            <div class="video-detail">
+                <h1>{{video.video_name}}</h1>
+                <p>{{video.description}}</p>
+            </div>
+        </div>
+
+        <div class="course-content-list-container">
+            {% for unit in units %}
+            <ul>
+                <h1><span class="toggle-btn"></span>{{unit.unit_name}}</h1>
+                <ul class="child-list">
+                    {% for video in unit.video_set.all %}
+                        <li><a href="/course/{{course.id}}/home/{{unit.id}}/{{video.id}}/">{{video.video_name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </ul>
+            {% endfor %}
+        </div> 
+    </div>
+
+{% endblock content %}

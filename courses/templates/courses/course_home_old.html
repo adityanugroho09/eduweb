@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>{{course.course_name}}</h1>
+    <ul>
+        {% for unit in units %}
+            <li>{{unit.unit_name}}</li>
+            <ul>
+                {% for video in unit.video_set.all %}
+                    <li><a href="/course/{{course.id}}/home/{{unit.id}}/{{video.id}}/">{{video.video_name}} {{unit.id}} {{video.id}}</a></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+
+    <iframe src="{{video.video_link}}" allowfullscreen></iframe>
+
+    
+{% endblock content %}

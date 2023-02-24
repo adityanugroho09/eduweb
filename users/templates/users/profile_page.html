@@ -1,0 +1,105 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="profile-page">
+        <!-- Profile Picture Start Here -->
+        <div class="profile-picture-container">
+            <div class="profile-picture">
+                <img src="{{user.profile.avatar.url}}" alt="">
+            </div>
+            <h1>{{user.username}}</h1>
+        </div>
+        <!-- Profile Picture End Here -->
+
+        <!-- Nav Profile Start Here -->
+        <div class="nav-profile">
+            <a href="{% url 'profile_page' %}"><span class="library">Library</span></a>
+            <a href="{% url 'edit_profile' %}"><span class="profile">Profile</span></a>
+        </div>
+        <!-- Nav Profile End Here -->
+
+        {% if page == 'library' %}
+        <!-- Library Start Here -->
+            <div class="library-container">
+                <div class="search-library">
+                    <form action="{% url 'profile_page' %}">
+                        <input type="search" name="items" placeholder="search here . . .">
+                    </form>
+                </div>
+                {% for item in item_list %}
+                <a href="\course\{{item.course.id}}\home\" class="card">
+                    <h1>{{item.course.course_name}}</h1>
+                    <span class="small-font">Course</span>
+                </a>
+                {% endfor %}
+                <ul class="pagination">
+                    {% if item_list.has_previous %}
+                        <li><a href="?page=1">&laquo First</a></li>
+                        <li><a href="?page={{item_list.previous_page_number}}">Previous</a></li>
+                    {% endif %}
+                        <li><a style="pointer-events: none">{{item_list.number}} of {{item_list.paginator.num_pages}}</a></li>
+                    {% if item_list.has_next %}
+                        <li><a href="?page={{item_list.next_page_number}}">Next</a></li>
+                        <li><a href="?page={{item_list.paginator.num_pages}}">Last &raquo</a></li>
+                    {% endif  %}
+                </ul>
+            </div>
+        <!-- Library End Here -->
+        {% elif page == 'edit profile' %}
+        <!-- Edit Profile Start Here -->
+            <form action="" method="POST" enctype="multipart/form-data" class="profile-data-container">
+                {% csrf_token %}
+                <div class="profile-data">
+                    <label for="id_username">Username:</label>
+                    {{user_form.username}}
+                </div>
+                <div class="profile-data">
+                    <label for="id_first_name">First Name:</label>
+                    {{user_form.first_name}}
+                </div>
+                <div class="profile-data">
+                    <label for="id_last_name">Last Name:</label>
+                    {{user_form.last_name}}
+                </div>
+                <div class="profile-data">
+                    <label for="id_email">Email:</label>
+                    {{user_form.email}}
+                </div>
+                <div class="profile-data">
+                    <label for="id_image">Change Avatar:</label>
+                    {{profile_form.avatar}}
+                </div>
+                <div class="profile-data">
+                    <button type="submit" class="bttn">Save Changes</button>
+                </div>
+                <div class="profile-data">
+                    <a href="{% url 'change_password' %}" class="bttn">Change Password</a>
+                </div>
+            </form>
+        <!-- Edit Profile End Here -->
+        {% else %}
+        <!-- Change Password Start Here -->
+            <form action="" method="POST" class="change-password-container">
+                {% csrf_token %}
+                <div class="profile-data">
+                    <label for="id_old_password" placeholder="Enter Old Password">Old Password</label>
+                    <input type="password" name="old_password" id="id_old_password" required>
+                </div>
+                <div class="profile-data">
+                    <label for="id_new_password1">New Password</label>
+                    <input type="password" name="new_password1" id="id_new_password1" required>
+                </div>
+                <div class="profile-data">
+                    <label for="id_new_password2">New Password Confirmation</label>
+                    <input type="password" name="new_password2" id="id_new_password2">
+                </div>
+                <div class="profile-data">
+                    <button type="submit" id="reset" class="bttn">Update Password</button>
+                </div>
+                
+            </form>
+        <!-- Change Password Ende Here -->
+        {% endif %}
+    </div>
+{% endblock content %}
+

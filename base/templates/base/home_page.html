@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="home-page">
+        <!-- Search Mobile Start Here -->
+        <div class="search-mobile">
+            <form action="{% url 'home_page' %}">
+                <input type="search" name="q" placeholder="search here . . .">
+            </form>
+        </div>
+        <!-- Search Mobile Ended Here -->
+
+        <!-- Course Section Start Here -->
+        <div class="courses-section">
+            <h1>Courses</h1>
+            <p>{{course_count}} results</p>
+
+            <!-- Course Container Start Here -->
+            <div class="courses-container">
+                {% for course in courses_list %}
+                <a href="{% url 'course_intro' course.id %}">
+                    <div class="course-display">
+                        <div class="course-display-hero">
+                            <img src="{{course.hero.url}}" alt="">
+                        </div>
+                        <div class="course-display-description">
+                            <h1>{{course.course_name}}</h1>
+                            <span class="small-font">{{course.publisher}}</span>
+                            <span class="small-font">{{course.content_type.type_name}}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            <!-- Course Container Ended Here -->
+            
+            <!-- Course Pagination Start Here -->
+            <ul class="pagination">
+                {% if courses_list.has_previous %}
+                    <li><a href="?page=1">&laquo First</a></li>
+                    <li><a href="?page={{courses_list.previous_page_number}}">Previous</a></li>
+                {% endif %}
+                    <li><a style="pointer-events: none">{{courses_list.number}} of {{courses_list.paginator.num_pages}}</a></li>
+                {% if courses_list.has_next %}
+                    <li><a href="?page={{courses_list.next_page_number}}">Next</a></li>
+                    <li><a href="?page={{courses_list.paginator.num_pages}}">Last &raquo</a></li>
+                {% endif  %}
+                    <li><a href="#">All</a></li>
+            </ul>
+            <!-- Course Pagination Ended Here -->
+        </div>
+        <!-- Course Section Ended Here -->
+        <p>{{courses}}</p>
+    </div>
+    
+{% endblock content %}

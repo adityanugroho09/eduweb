@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="login-signup-container" id="register-page">
+
+        <!-- Welcome Container Start Here -->
+        <div class="welcome-container">
+            <div class="welcome-logo">LOGO</div>
+            <div class="welcome-h1">
+                <h1>{{greeting}},</h1>
+                <h1>Curious Learner !</h1>
+            </div>
+            <div class="welcome-paragraph">
+                <p>Choose your courses and</p>
+                <p>become a master</p>
+            </div>   
+            <div class="welcome-bttn-container">
+                {% if page == 'login' %}
+                    <a href="#login-container" class="bttn login">Log In</a>
+                {% else %}
+                    <a href="{% url 'login_page' %}" class="bttn login">Log In</a>
+                {% endif %}
+                <a href="{% url 'register_page' %}" class="bttn signup" onclick="scrollToBottom()">Sign Up</a>
+            </div>
+  
+
+        </div>
+        <!-- Welcome Container Finished Here -->
+
+        <!-- Log In Section Start Here -->
+        {% if page == 'login' %}
+        <div id="login-container">
+            <h1>Log In</h1>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" id="username" name="username" placeholder="Username">
+                <input type="password" id="password" name="password" placeholder="Password">
+                <span>Don't have an account ? Create <a href="{% url 'register_page' %}" class="signup-switch">here</a></span>
+                <span>Forgot Password ? Reset Password <a href="{% url 'reset_password' %}">here</a></span>
+                <input type="submit" name="Submit" value="Log In" class="bttn">
+            </form> 
+
+            <ul class="messages-container">
+                {% if messages %}
+                    {% for message in messages %}
+                <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+
+        </div>
+        <!-- Log In Section Finished Here -->
+        {% else %}
+        <!-- Sign Up Section Start Here -->
+        <div id="signup-container">
+            <h1>Sign Up</h1>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label for="">{{field.label}}</label>
+                    {{field}}
+                {% endfor %}
+                <span>Have already an account ? Log In <a href="{% url 'login_page' %}" class="login-switch">here</a></span>
+                <input type="submit" name="Submit" value="Sign Up" class="bttn">
+            </form>
+
+            <ul class="messages-container">
+                {% if messages %}
+                    {% for message in messages %}
+                <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            
+        </div>
+        <!-- Sign Up Section Finished Here -->
+        {% endif %}
+    </div>
+{% endblock content %}

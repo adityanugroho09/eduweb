@@ -1,0 +1,64 @@
+{% load static %}
+    <header>
+        <div class="nav-hambuger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+
+        <div class="nav-logo"><a href="{% url 'home_page' %}">LOGO</a></div>
+
+        <nav class="nav-bar">
+            <ul class="nav-menu">
+                <li><a href="{% url 'home_page' %}?q=course">Courses</a></li>
+                <!-- <li><a href="{% url 'home_page' %}?q=blog">Blogs</a></li> -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile_page' %}">Library</a></li>
+                {% endif %}  
+            </ul>
+        </nav>
+
+        <nav class="nav-bar small">
+            <ul class="nav-menu small">
+                <li><a href="{% url 'home_page' %}?q=course">Courses</a></li>
+                <!-- <li><a href="">Blogs</a></li> -->
+                <li><a href="{% url 'profile_page' %}">Library</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile_page' %}">Profile</a></li>
+                    <li><a href="{% url 'user_logout' %}">Logout</a></li> 
+                {% else %}
+                    <li><a href="{% url 'login_page' %}">Log In</a></li>
+                    <li><a href="{% url 'register_page' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+
+        <div class="nav-search search">
+            <form action="{% url 'home_page' %}">
+                <input type="search" name="q" placeholder="search here . . .">
+            </form>
+        </div>
+
+        <div class="nav-account">
+            
+            <ul>    
+                {% if user.is_authenticated %}
+                    <li class="nav-img"><a href="{% url 'profile_page' %}"><img src="{{user.profile.avatar.url}}" alt=""></a></li>
+                    <li><a href="{% url 'user_logout' %}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login_page' %}">Log In</a></li>
+                    <li><a href="{% url 'register_page' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <script>
+        hambuger = document.querySelector('.nav-hambuger');
+
+        hambuger.onclick = function() {
+            navBar = document.querySelector(".small");
+            navBar.classList.toggle('active');
+        }
+    </script>

@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h2>{{course.course_name}}</h2>
+    <p>{{course.description}}</p>
+    {% for unit in course.unit_set.all %}
+        <ul>
+            <li>{{unit.unit_name}}</li>
+        </ul>
+    {% endfor %}
+
+    {% if obj == None %}
+        <a href="{% url 'add_to_library' course.id %}">Take The Course</a>
+    {% else %}
+        <a href="{% url 'course_home' course.id %}">Go To The Course</a>
+    {% endif %}
+{% endblock content %}

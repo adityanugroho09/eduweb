@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+{% block content %}
+    <div class="course-detail-page">
+        <div class="course-detail-container">
+            <h1>{{course.course_name}}</h1>
+            <p class="pragraph-font">{{course.description}}</p>
+            <h2>What Will You Learn</h2>
+            <ul>
+                {% for unit in course.unit_set.all %}
+                    <li>{{unit.unit_name}}</li>
+                {% endfor %}
+            </ul>
+            <div class="course-bttn">
+                {% if obj == None and user.is_authenticated %}
+                    <a href="{% url 'add_to_library' course.id %}" class="bttn">Take The Course</a>
+                {% elif obj == None and not user.is_authenticated %}
+                    <a href="{% url 'login_page' %}" class="bttn">Take The Course</a>
+                {% else %}
+                    <a href="{% url 'course_home' course.id %}" class="bttn">Go To The Course</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="recomendations-container">
+            <div class="recomendation-cards">
+                <h2>Recomendations</h2>
+                {% for course in recomendations %}
+                <a href="{% url 'course_intro' course.id%}" class="card">
+                    <h2>{{course.course_name}}</h2>
+                    <span class="small-font">{{course.content_type.type_name}}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

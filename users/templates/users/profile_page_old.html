@@ -1,0 +1,46 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>Profile</h1>
+    <p>Username : {{user.username}}</p>
+    <p>First Name : {{user.profile.first_name}}</p>
+    <p>Last Name : {{user.profile.last_name}}</p>
+    <p>Email : {{user.email}}</p>
+    <br>
+    <img src="{{user.profile.avatar.url}}" alt="" width="200">
+    <br>
+    <a href="{% url 'edit_profile' %}">Edit_Profile</a>
+    <a href="{% url 'change_password' %}">Change Password</a>
+    {% if page == 'edit profile' %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="id_username">Username:</label>
+            {{user_form.username}}
+            <br>
+            <label for="id_first_name">First Name:</label>
+            {{profile_form.first_name}}
+            <br>
+            <label for="id_last_name">Last Name:</label>
+            {{profile_form.last_name}}
+            <br>
+            <label for="id_email">Email:</label>
+            {{user_form.email}}
+            <br>
+            <label for="id_image">Change Avatar:</label>
+            {{profile_form.avatar}}
+            <br>
+            <button type="submit">Save Changes</button>
+            <button type="reset">Reset</button>
+        </form>
+    {% endif %}
+
+    <br><br><br><br>
+
+    {% for item in library_items %}
+        <ul>
+            <li><a href="\course\{{item.course.id}}\home\">{{item.course.course_name}}</a><br><a href="{% url 'delete_item_library' item.course.id %}">Delete</a></li>
+        </ul>
+        {{item.course.id}}
+    {% endfor %}
+    
+{% endblock content %}
